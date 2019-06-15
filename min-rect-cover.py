@@ -1,19 +1,21 @@
 import math
+from Graph import Graph
 
 class Polygon:
     def __init__(self, vertices):
         self.vertices = vertices
         self.n = len(vertices)
         self.checked_vertices = []
+        self.is_horizontal = []
 
     def solve(self):
         diagonal_edges = self.cut_poly()
-        for diag in diagonal_edges:
-            print diag
+        i = 0
         # for diag in diagonal_edges:
-        #     graph.add(diag)
-        # graph = graph.maximum_independent_set()
-        # graph = graph.minimum_vertex_cover()
+        #     print i, diag
+        #     i += 1
+        graph = Graph(diagonal_edges, self.is_horizontal)
+        graph = graph.maximum_independent_set()
         # polygon_arr = graph.get_polygons()
         num_of_rects = 0
         # for poly in polygon_arr:
@@ -66,6 +68,10 @@ class Polygon:
             return
         self.checked_vertices += [snd]
         self.checked_vertices += [best_vert]
+        if snd[0] == best_vert[0]:
+            self.is_horizontal += [1]
+        else:
+            self.is_horizontal += [0]
         diagonal_edges += [(snd, best_vert)]
 
     def dist(self, v1, v2):
@@ -82,18 +88,22 @@ class Polygon:
         return False
 
 def main():
-    vertices = [(0, 0),
-                (1, 0),
-                (1, 1.5),
-                (2, 1.5),
-                (2, 2.5),
-                (1, 2.5),
-                (1, 3),
-                (0, 3),
+    vertices = [(1, 0),
+                (2, 0),
+                (2, 1),
+                (3, 1),
+                (3, 0),
+                (4, 0),
+                (4, 2),
+                (5, 2),
+                (5, 5),
+                (3, 5),
+                (3, 3),
+                (2, 3),
+                (2, 5),
+                (0, 5),
                 (0, 2),
-                (-1, 2),
-                (-1, 1),
-                (0, 1),
+                (1, 2),
                 ]
     Polygon(vertices).solve()
     return
